@@ -30,6 +30,7 @@
         <button id="submitGuess" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Submit Guess</button>
         <button id="newColor" class="mt-4 ml-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">New Color</button>
         <p id="result" class="mt-4 font-bold"></p>
+        <div id="hueCheatsheet" class="mt-4 hidden"></div>
     </div>
 
     <script>
@@ -43,6 +44,21 @@
         const result = document.getElementById('result');
 
         let targetHSL;
+
+        function generateHueCheatsheet() {
+            const cheatsheet = document.getElementById('hueCheatsheet');
+            cheatsheet.innerHTML = '';
+            for (let i = 0; i < 12; i++) {
+                const hue = i * 30;
+                const div = document.createElement('div');
+                div.className = 'inline-block mr-2 mb-2 text-center';
+                div.innerHTML = `
+                    <div class="w-12 h-12 rounded" style="background-color: hsl(${hue}, 100%, 50%);"></div>
+                    <span class="text-xs">${hue}°</span>
+                `;
+                cheatsheet.appendChild(div);
+            }
+        }
 
         function generateTargetColor() {
             const h = Math.floor(Math.random() * 360);
@@ -95,6 +111,10 @@
             hueInput.value = guessHSL[0];
             saturationInput.value = guessHSL[1];
             lightnessInput.value = guessHSL[2];
+
+            // Show hue cheatsheet
+            generateHueCheatsheet();
+            document.getElementById('hueCheatsheet').classList.remove('hidden');
         });
 
         generateTargetColor();
