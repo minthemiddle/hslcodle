@@ -28,6 +28,7 @@
             <input type="number" id="lightnessInput" min="0" max="100" class="w-full p-2 border rounded">
         </div>
         <button id="submitGuess" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Submit Guess</button>
+        <button id="newColor" class="mt-4 ml-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">New Color</button>
         <p id="result" class="mt-4 font-bold"></p>
     </div>
 
@@ -38,6 +39,7 @@
         const saturationInput = document.getElementById('saturationInput');
         const lightnessInput = document.getElementById('lightnessInput');
         const submitGuess = document.getElementById('submitGuess');
+        const newColorBtn = document.getElementById('newColor');
         const result = document.getElementById('result');
 
         let targetHSL;
@@ -48,7 +50,16 @@
             const l = Math.floor(Math.random() * 101);
             targetHSL = [h, s, l];
             targetColor.style.backgroundColor = `hsl(${h}, ${s}%, ${l}%)`;
+            
+            // Clear input fields and result
+            hueInput.value = '';
+            saturationInput.value = '';
+            lightnessInput.value = '';
+            result.textContent = '';
+            guessColor.style.backgroundColor = 'rgb(229, 231, 235)'; // Reset to gray-200
         }
+
+        newColorBtn.addEventListener('click', generateTargetColor);
 
         submitGuess.addEventListener('click', () => {
             const guessHSL = [
