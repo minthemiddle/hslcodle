@@ -87,25 +87,32 @@
             // Update guess color display only after submission
             guessColor.style.backgroundColor = `hsl(${guessHSL[0]}, ${guessHSL[1]}%, ${guessHSL[2]}%)`;
             
+            const hueDelta = targetHSL[0] - guessHSL[0];
+            const saturationDelta = targetHSL[1] - guessHSL[1];
+            const lightnessDelta = targetHSL[2] - guessHSL[2];
+
             const difference = Math.sqrt(
-                Math.pow(targetHSL[0] - guessHSL[0], 2) +
-                Math.pow(targetHSL[1] - guessHSL[1], 2) +
-                Math.pow(targetHSL[2] - guessHSL[2], 2)
+                Math.pow(hueDelta, 2) +
+                Math.pow(saturationDelta, 2) +
+                Math.pow(lightnessDelta, 2)
             );
             
+            let resultText = "";
             if (difference < 5) {
-                result.textContent = "Excellent guess!";
+                resultText = "Excellent guess!";
                 result.className = "mt-4 font-bold text-green-600";
             } else if (difference < 15) {
-                result.textContent = "Close! Try again.";
+                resultText = "Close! Try again.";
                 result.className = "mt-4 font-bold text-yellow-600";
             } else {
-                result.textContent = "Not quite. Keep trying!";
+                resultText = "Not quite. Keep trying!";
                 result.className = "mt-4 font-bold text-red-600";
             }
 
-            // Reveal target color HSL values
-            result.textContent += ` Target color: HSL(${targetHSL[0]}, ${targetHSL[1]}%, ${targetHSL[2]}%)`;
+            // Reveal target color HSL values and deltas
+            resultText += `<br>Target color: HSL(${targetHSL[0]}, ${targetHSL[1]}%, ${targetHSL[2]}%)`;
+            resultText += `<br>Deltas: H(${hueDelta.toFixed(2)}), S(${saturationDelta.toFixed(2)}), L(${lightnessDelta.toFixed(2)})`;
+            result.innerHTML = resultText;
 
             // Update input fields with clamped values
             hueInput.value = guessHSL[0];
