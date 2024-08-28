@@ -98,21 +98,27 @@
             );
             
             let resultText = "";
+            let circleColor = "";
             if (difference < 5) {
                 resultText = "Excellent guess!";
-                result.className = "mt-4 font-bold text-green-600";
+                circleColor = "bg-green-600";
             } else if (difference < 25) {
                 resultText = "Close! Try again.";
-                result.className = "mt-4 font-bold text-yellow-600";
+                circleColor = "bg-yellow-600";
             } else {
                 resultText = "Not quite. Keep trying!";
-                result.className = "mt-4 font-bold text-red-600";
+                circleColor = "bg-red-600";
             }
 
             // Reveal target color HSL values and deltas
-            resultText += `<br>Target color: HSL(${targetHSL[0]}, ${targetHSL[1]}%, ${targetHSL[2]}%)`;
-            resultText += `<br>Deltas: H(${hueDelta.toFixed(2)}), S(${saturationDelta.toFixed(2)}), L(${lightnessDelta.toFixed(2)})`;
-            result.innerHTML = resultText;
+            result.innerHTML = `
+                <div class="flex items-center">
+                    <div class="w-4 h-4 rounded-full ${circleColor} mr-2"></div>
+                    <span class="font-bold">${resultText}</span>
+                </div>
+                <div>Target color: HSL(${targetHSL[0]}, ${targetHSL[1]}%, ${targetHSL[2]}%)</div>
+                <div>Deltas: H(${hueDelta.toFixed(2)}), S(${saturationDelta.toFixed(2)}), L(${lightnessDelta.toFixed(2)})</div>
+            `;
 
             // Update input fields with clamped values
             hueInput.value = guessHSL[0];
