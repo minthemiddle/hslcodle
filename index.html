@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSL Color Guessing Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">HSL Color Guessing Game</h1>
+        <div class="flex space-x-4 mb-4">
+            <div>
+                <p class="mb-2">Target Color</p>
+                <div id="targetColor" class="w-32 h-32 rounded-lg"></div>
+            </div>
+            <div>
+                <p class="mb-2">Your Guess</p>
+                <div id="guessColor" class="w-32 h-32 rounded-lg bg-gray-200"></div>
+            </div>
+        </div>
+        <div class="space-y-2">
+            <label for="hueInput" class="block">Hue (0-360)</label>
+            <input type="range" id="hueInput" min="0" max="360" class="w-full">
+            <label for="saturationInput" class="block">Saturation (0-100)</label>
+            <input type="range" id="saturationInput" min="0" max="100" class="w-full">
+            <label for="lightnessInput" class="block">Lightness (0-100)</label>
+            <input type="range" id="lightnessInput" min="0" max="100" class="w-full">
+        </div>
+        <button id="submitGuess" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Submit Guess</button>
+        <p id="result" class="mt-4 font-bold"></p>
+    </div>
+
+    <script>
+        const targetColor = document.getElementById('targetColor');
+        const guessColor = document.getElementById('guessColor');
+        const hueInput = document.getElementById('hueInput');
+        const saturationInput = document.getElementById('saturationInput');
+        const lightnessInput = document.getElementById('lightnessInput');
+        const submitGuess = document.getElementById('submitGuess');
+        const result = document.getElementById('result');
+
+        let targetHSL;
+
+        function generateTargetColor() {
+            const h = Math.floor(Math.random() * 360);
+            const s = Math.floor(Math.random() * 101);
+            const l = Math.floor(Math.random() * 101);
+            targetHSL = [h, s, l];
+            targetColor.style.backgroundColor = `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        submitGuess.addEventListener('click', () => {
+            const guessHSL = [
+                parseInt(hueInput.value),
+                parseInt(saturationInput.value),
+                parseInt(lightnessInput.value)
+            ];
+            
+            // Update guess color display only after submission
+            guessColor.style.backgroundColor = `hsl(${guessHSL[0]}, ${guessHSL[1]}%, ${guessHSL[2]}%)`;
+            
+            const difference = Math.sqrt(
+                Math.pow(targetHSL[0] - guessHSL[0], 2) +
+                Math.pow(targetHSL[1] - guessHSL[1], 2) +
+                Math.pow(targetHSL[2] - guessHSL[2], 2)
+            );
+            
+            if (difference < 5) {
+                result.textContent = "Excellent guess!";
+                result.className = "mt-4 font-bold text-green-600";
+            } else if (difference < 15) {
+                result.textContent = "Close! Try again.";
+                result.className = "mt-4 font-bold text-yellow-600";
+            } else {
+                result.textContent = "Not quite. Keep trying!";
+                result.className = "mt-4 font-bold text-red-600";
+            }
+        });
+
+        generateTargetColor();
+    </script>
+</body>
+</html>
