@@ -77,6 +77,9 @@
                 result.className = "mt-4 font-bold text-red-600";
             }
 
+            // Reveal target color HSL values
+            result.textContent += ` Target color: HSL(${targetHSL[0]}, ${targetHSL[1]}%, ${targetHSL[2]}%)`;
+
             // Update input fields with clamped values
             hueInput.value = guessHSL[0];
             saturationInput.value = guessHSL[1];
