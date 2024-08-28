@@ -73,6 +73,9 @@
             lightnessInput.value = '';
             result.textContent = '';
             guessColor.style.backgroundColor = 'rgb(229, 231, 235)'; // Reset to gray-200
+            
+            // Hide the hue cheatsheet
+            document.getElementById('hueCheatsheet').classList.add('hidden');
         }
 
         newColorBtn.addEventListener('click', generateTargetColor);
